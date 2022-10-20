@@ -9,12 +9,11 @@ using namespace std;
 
 struct pri_queue
 {
-	int num;
+	char num[10];
 	int priority;
 	pri_queue* next = nullptr;
+
 };
-
-
 
 void insert(pri_queue*& main, pri_queue* new_el) {
 
@@ -35,6 +34,60 @@ void insert(pri_queue*& main, pri_queue* new_el) {
 
 	new_el->next = tmp;
 
+}
+
+
+
+
+/* Функция удаления элемента очереди (первого) */
+int end(pri_queue* head) {
+	if (head == NULL)
+	{
+		printf("Очередь пуста!\n");
+		exit(1);
+	}
+	int val;
+	
+
+	struct pri_queue* tmp = head;  // принять к сведению данные верхнего узла
+	val = tmp->priority;
+	printf("Верхний удаляемый элемент: %s\n", head->num);
+	head = head->next;  // обновляем верхний указатель, чтобы он указывал на следующий узел
+
+
+
+	//printf(" % d",  tmp->num);
+	free(tmp);
+	return val;
+
+}
+
+
+/* Функция поиска элемента очереди */
+struct pri_queue* find(pri_queue* head)
+{
+	struct pri_queue* tmp = head;
+	if (head == NULL)
+	{
+		printf("Очередь пуста!\n");
+		return 0;
+	}
+
+	char name[20];
+	printf("Введите название элемента для поиска: ");
+	scanf_s("%s", &name,20);
+
+	while (tmp)
+	{
+		if (strcmp(name,tmp->num) == 0)
+		{
+			printf("Элемент найден)\n");
+			return 0;
+		}
+		tmp = tmp->next;
+	}
+	printf("Элемент не найден(\n");
+	return 0;
 }
 
 
@@ -62,6 +115,10 @@ int main()
 		insert(head, tmp);
 
 		count--;
+
+
+
+
 	}
 
 	pri_queue* tmp = head;
@@ -70,6 +127,23 @@ int main()
 		cout << tmp->num << endl;
 		tmp = tmp->next;
 	}
+	
+	while (true) {
+		int i = getchar();
+		switch (i) {
 
+		case '-':
+			end(head);
+
+			break;
+		case 'f':
+			find(head);
+
+			break;
+		default:
+			break;
+		}
+		
+	}
 	return 0;
 }
